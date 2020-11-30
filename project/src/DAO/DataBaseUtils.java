@@ -17,18 +17,16 @@ import java.sql.SQLException;
  * @author quang
  */
 public class DataBaseUtils {
+
     private static Connection _connection;
     private static DataBaseUtils _instance;
-    
-    
+
     private DataBaseUtils() throws Exception {
         System.out.println("Hi");
         _connection = getConnection();
         _connection.setAutoCommit(false);
     }
-    
-    
-    
+
     public static DataBaseUtils getInstance() throws Exception {
         if (_instance == null) {
             synchronized (DataBaseUtils.class) {
@@ -39,17 +37,23 @@ public class DataBaseUtils {
         }
         return _instance;
     }
-    public static Connection getConnection(){
+
+    public static Connection getConnection() {
         Connection connection = null;
-        String url = "jdbc:sqlserver://localhost:1433;databasename=QUANLYBANHANGVERSION2";
-        String user = "sa";
-        String password = "Quang1999.";
+        String url = "jdbc:sqlserver://localhost:1433;databasename=QUANLYBANHANGVERSION1";
+        String user = "truongkyle";
+        String password = "admin123";
         try {
             connection = DriverManager.getConnection(url, user, password);
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            System.out.println("error connect");
+            e.printStackTrace();
+            return null;
+        }
+        System.out.println("Connect success");
         return connection;
     }
-    
+
     public PreparedStatement excuteQueryWrite(String sql) {
         try {
             return _connection.prepareStatement(sql);
@@ -58,8 +62,7 @@ public class DataBaseUtils {
         }
         return null;
     }
-    
-    
+
     /**
      * Thực thi script sql select
      *
@@ -76,7 +79,6 @@ public class DataBaseUtils {
         return null;
     }
 
-
     /**
      * commit sql
      *
@@ -89,9 +91,7 @@ public class DataBaseUtils {
             throw new Exception("Lỗi commit query");
         }
     }
-    
-    
-    
+
     /**
      * rollback sql
      *
@@ -104,7 +104,6 @@ public class DataBaseUtils {
             throw new Exception("Lỗi rollback query");
         }
     }
-
 
     /**
      * thực thi hàm, thủ tục trong sql
