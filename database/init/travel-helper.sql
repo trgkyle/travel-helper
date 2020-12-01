@@ -4,7 +4,7 @@ Modified		11/30/2020
 Project		
 Model		
 Company		
-Author		
+Author		Truongkyle
 Version		
 Database		MS SQL 7 
 */
@@ -23,18 +23,18 @@ GO
 
 
 -- GENERATE QUERY IN HERE
+
 Create table [events] (
 	[eventID] Integer Identity NOT NULL UNIQUE,
 	[eventTypeID] Integer NOT NULL,
-	[value] Char(60) NULL,
+	[value] Char(60) NOT NULL,
 Primary Key  ([eventID])
 ) 
 go
 
 Create table [rules] (
 	[ruleID] Integer Identity NOT NULL UNIQUE,
-	[eventID] Integer NOT NULL,
-	[value] Char(100) NOT NULL,
+	[ruleGroupID] Integer NOT NULL,
 Primary Key  ([ruleID])
 ) 
 go
@@ -46,13 +46,34 @@ Primary Key  ([eventTypeID])
 ) 
 go
 
+Create table [ruleGroups] (
+	[ruleGroupID] Integer Identity NOT NULL UNIQUE,
+	[right] Integer NOT NULL,
+	[left1] Integer NOT NULL,
+	[left2] Integer NOT NULL,
+Primary Key  ([ruleGroupID])
+) 
+go
 
-Alter table [rules] add  foreign key([eventID]) references [events] ([eventID]) 
+
+Alter table [ruleGroups] add  foreign key([left1]) references [events] ([eventID]) 
+go
+Alter table [ruleGroups] add  foreign key([left2]) references [events] ([eventID]) 
+go
+Alter table [ruleGroups] add  foreign key([right]) references [events] ([eventID]) 
 go
 Alter table [events] add  foreign key([eventTypeID]) references [eventTypes] ([eventTypeID]) 
 go
+Alter table [rules] add  foreign key([ruleGroupID]) references [ruleGroups] ([ruleGroupID]) 
+go
 
 
+Set quoted_identifier on
+go
+
+
+Set quoted_identifier off
+go
 
 
 /* Roles permissions */
@@ -285,6 +306,10 @@ VALUES ('Sapa',8)
 
 INSERT INTO events(value, eventTypeID)
 VALUES ('Vuong Quoc Gia Ba Vi',8)
+
+
+INSERT INTO ruleGroups(left1,left2,[right])
+VALUES (26,26,37)
 
 Set quoted_identifier on
 go
