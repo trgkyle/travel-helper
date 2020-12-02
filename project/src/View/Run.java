@@ -4,14 +4,16 @@
  * and open the template in the editor.
  */
 package View;
+import VTabbed.Dashboard;
 
 /**
  *
- * @author quang
+ * @author TruongKyle
  */
 public class Run {
     public static void main(String args[]) {
-        new DangNhap();
+        Dashboard dashboard = new Dashboard();
+//        new DangNhap();
     }
 }
 
