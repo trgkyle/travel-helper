@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
 public class KhachHangTableModel extends AbstractTableModel {
-    private ArrayList<KhachHang> khachHangs;
+    private ArrayList<KhachHang> khachHangs;  
 
     private final String[] columnNames = new String[]{
             "Mã Khách Hàng", "Tên khách hàng", "Giới tính", "Ngày sinh", "CMND", "Số điện thoại", "Địa chỉ", "Ngày tham gia"

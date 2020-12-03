@@ -11,6 +11,31 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/DAO/NhaCungCapDAO.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/VTabbed/QuanLyNhanVienTab.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/DAO/TapSuKienDAO.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/DAO/MatHangDAO.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/VTabbed/QuanLyKhachHangTab.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/DAO/HoaDonDAO.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/DAO/DataBaseUtils.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/View/Run.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/manifest.mf</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/VTabbed/QuanLyNhaCungCapTab.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/View/Admin.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/VTabbed/ThongKeTab.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/VDialog/KhachHangDialog.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/DAO/TapLuatDAO.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/DAO/MatHangHoaDonDAO.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/VTabbed/QuanLyMuaBan.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/VTabbed/Dashboard.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/DAO/TaiKhoanDAO.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/View/DangNhap.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/VDialog/MatHangDialog.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/DAO/KhachHangDAO.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/DAO/NhanVienDAO.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/VDialog/HoaDonBanDialog.java</file>
+            <file>file:/C:/Users/Truong-kyle/Documents/github/java/travel-helper/project/src/VTabbed/QuanLyMatHangTab.java</file>
+        </group>
     </open-files>
 </project-private>

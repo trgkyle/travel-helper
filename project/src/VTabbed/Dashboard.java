@@ -5,21 +5,130 @@
  */
 package VTabbed;
 
+import Model.DanhSachKhachHang;
+import Model.DanhSachTapLuat;
+import Model.DanhSachTapSuKien;
+import Model.TapLuat;
+import VTableModel.TapLuatTableModel;
+import VTableModel.TapSuKienTableModel;
+import java.awt.Component;
+import java.awt.Font;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author Truong-kyle
  */
 public class Dashboard extends javax.swing.JFrame {
 
+    private DanhSachTapLuat danhSachTapLuat;
+    private DanhSachTapSuKien danhSachTapSuKien;
+    private int indexFilter = 0;
+    private TapLuatTableModel tapLuatTableModel;
+    private TapSuKienTableModel tapSuKienTableModel;
+    private TableRowSorter<TableModel> sorter;
+    private final Component rootComponent = this;
+
     /**
      * Creates new form Dashboard
      */
-    public Dashboard() {
-        System.out.println("Hello world");
+
+    private void prepareUI() {
+//        tap luat table
+        tapLuatTableModel = new TapLuatTableModel(danhSachTapLuat.getAll());
+
+        sorter = new TableRowSorter<>(tapLuatTableModel);
+
+        tableRules.setModel(tapLuatTableModel); //= new JTable(khachHangTableModel);
+        tableRules.setRowSorter(sorter);
+
         
-//        connect db is verry important 
+//        tap su kien table
+
+        tapSuKienTableModel = new TapSuKienTableModel(danhSachTapSuKien.getAll());
+
+        sorter = new TableRowSorter<>(tapSuKienTableModel);
+
+        tableEvents.setModel(tapSuKienTableModel); //= new JTable(khachHangTableModel);
+        tableEvents.setRowSorter(sorter);
+        
+        
+        refresh(true);
+    }
+
+    /**
+     * Refresh giao diện khi có cập nhật
+     */
+    public void refresh(boolean reloadData) {
+//        int oldSelected = getCurrentSelected();
+
+        if (reloadData) {
+            // load lai dữ liệu
+            try {
+                danhSachTapLuat.loadData();
+                danhSachTapSuKien.loadData();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Lỗi không load được dữ liệu");
+            }
+
+            // cập nhật table
+//            tap luat
+            tapLuatTableModel.setModel(danhSachTapLuat.getAll());
+            tableRules.setModel(tapLuatTableModel);
+
+            sorter.setModel(tapLuatTableModel);
+
+            tableRules.revalidate();
+            tableRules.repaint();
+//            tap su kien
+            tapSuKienTableModel.setModel(danhSachTapSuKien.getAll());
+            tableEvents.setModel(tapSuKienTableModel);
+
+            sorter.setModel(tapSuKienTableModel);
+
+            tableEvents.revalidate();
+            tableEvents.repaint();
+//            setCurrentSelected(oldSelected);
+        }
+//
+//        // bật tắt chức năng sữa, xoá
+//        if (getCurrentSelected() != -1) {
+//            btnSua.setEnabled(true);
+//            btnSua.setToolTipText("[Alt + S] Cập nhật thông tin khách hàng");
+//
+//            btnXoa.setToolTipText("[Alt + X] Xoá khách hàng");
+//            btnXoa.setEnabled(true);
+//        } else {
+//            btnSua.setToolTipText("Vui lòng chọn khách hàng cần cập nhật thông tin");
+//            btnSua.setEnabled(false);
+//
+//            btnXoa.setToolTipText("Vui lòng chọn khách hàng cần xoá");
+//            btnXoa.setEnabled(false);
+//        }
+    }
+
+    public Dashboard() {
         
         initComponents();
+        
+        //        System.out.println("Hello world");
+
+//        connect db is verry important 
+
+        try {
+            danhSachTapLuat = new DanhSachTapLuat();
+            danhSachTapSuKien = new DanhSachTapSuKien();
+            prepareUI();
+            //System.out.println("Load Bang Quan Ly Khach Hang");
+        } catch (Exception ex) {
+            Logger.getLogger(QuanLyKhachHangTab.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         this.setVisible(true);
     }
 
@@ -37,11 +146,11 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tableEvents = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableRules = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -49,7 +158,7 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("HỆ CHUYÊN GIA TƯ VẤN DU LỊCH");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tableEvents.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null}
             },
@@ -65,14 +174,14 @@ public class Dashboard extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tableEvents);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("DANH SÁCH TẬP SỰ KIỆN");
         jLabel3.setToolTipText("");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableRules.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null}
             },
@@ -88,7 +197,10 @@ public class Dashboard extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableRules);
+        if (tableRules.getColumnModel().getColumnCount() > 0) {
+            tableRules.getColumnModel().getColumn(0).setMaxWidth(100);
+        }
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -100,11 +212,14 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(50, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,7 +240,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addGap(48, 48, 48)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -154,7 +269,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 28, Short.MAX_VALUE)
+                .addGap(28, 28, 28)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -172,7 +287,7 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -246,7 +361,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable tableEvents;
+    private javax.swing.JTable tableRules;
     // End of variables declaration//GEN-END:variables
 }

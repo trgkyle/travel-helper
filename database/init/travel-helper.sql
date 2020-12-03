@@ -9,6 +9,19 @@ Version
 Database		MS SQL 7 
 */
 
+DECLARE @DatabaseName nvarchar(50)
+SET @DatabaseName = N'TRAVELHELPER'
+
+DECLARE @SQL varchar(max)
+
+SELECT @SQL = COALESCE(@SQL,'') + 'Kill ' + Convert(varchar, SPId) + ';'
+FROM MASTER..SysProcesses
+WHERE DBId = DB_ID(@DatabaseName) AND SPId <> @@SPId
+
+--SELECT @SQL 
+EXEC(@SQL)
+
+
 USE master
 GO
 
@@ -35,6 +48,7 @@ go
 Create table [rules] (
 	[ruleID] Integer Identity NOT NULL UNIQUE,
 	[ruleGroupID] Integer NOT NULL,
+	[content] Char(80) NULL,
 Primary Key  ([ruleID])
 ) 
 go
@@ -66,7 +80,6 @@ Alter table [events] add  foreign key([eventTypeID]) references [eventTypes] ([e
 go
 Alter table [rules] add  foreign key([ruleGroupID]) references [ruleGroups] ([ruleGroupID]) 
 go
-
 
 Set quoted_identifier on
 go
@@ -310,6 +323,9 @@ VALUES ('Vuong Quoc Gia Ba Vi',8)
 
 INSERT INTO ruleGroups(left1,left2,[right])
 VALUES (26,26,37)
+
+INSERT INTO rules(ruleGroupID, content)
+VALUES (1,"Test test test")
 
 Set quoted_identifier on
 go
