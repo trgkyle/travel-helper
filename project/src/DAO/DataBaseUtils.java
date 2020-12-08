@@ -42,7 +42,7 @@ public class DataBaseUtils {
         Connection connection = null;
         String url = "jdbc:sqlserver://localhost:1433;databasename=TRAVELHELPER";
         String user = "truongkyle";
-        String password = "admin123";
+        String password = "Admin@123";
         try {
             connection = DriverManager.getConnection(url, user, password);
         } catch (Exception e) {
