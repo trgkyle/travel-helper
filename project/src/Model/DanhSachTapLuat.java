@@ -50,12 +50,13 @@ public class DanhSachTapLuat {
      * @return
      * @throws Exception
      */
-    public void them(TapLuat tapLuat) throws Exception {
+    public void them(String rule) throws Exception {
+        TapLuat newTapLuat = new TapLuat(1,1,rule);
         // kiểm tra trùng mã khách hàng
-        if (tapLuat == null || tapLuats.contains(tapLuat))
-            throw new Exception("Đã có khách hàng này trong hệ thống");
-
-        tapLuats.add(tapLuatDAO.themKhachHang(khachHang));
+        if (newTapLuat == null || tapLuats.contains(newTapLuat))
+            throw new Exception("Đã có tập luật này trên hệ thống");
+        tapLuatDAO.addTapLuat(newTapLuat);
+        tapLuats = tapLuatDAO.getTapLuats();
     }
 
 
@@ -67,13 +68,13 @@ public class DanhSachTapLuat {
      * @return
      * @throws Exception
      */
-    public boolean xoa(String ruleID) throws Exception {
+    public boolean xoa(int ruleID) throws Exception {
         TapLuat tapLuat = tapLuats.get(tim(ruleID));
 
         if (tapLuat == null)
             return false;
-
-        return tapLuatDAO.xoaKhachHang(ruleID) && tapLuats.remove(tapLuat);
+        return false;
+//        return tapLuatDAO.xoa(ruleID) && tapLuats.remove(tapLuat);
     }
 
 
@@ -85,8 +86,8 @@ public class DanhSachTapLuat {
      * @return
      * @throws Exception
      */
-    public boolean sua(KhachHang khachHang) throws Exception {
-        return khachHangs.set(tim(khachHang.getMaKH()), khachHangDAO.suaKhachHang(khachHang)) != null;
+    public boolean sua(TapLuat tapLuat) throws Exception {
+        return tapLuats.set(tim(tapLuat.getRuleID()), tapLuatDAO.suaTapLuat(tapLuat)) != null;
     }
 
 

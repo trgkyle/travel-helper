@@ -6,6 +6,7 @@
 package DAO;
 
 import Model.TapLuat;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
@@ -18,6 +19,7 @@ public class TapLuatDAO {
     private static TapLuatDAO _instance;
     private static DataBaseUtils dataBaseUtils;
     private ResultSet resultSet;
+    private PreparedStatement preparedStatement;
 
     /**
      * Tạo kết nối DB
@@ -28,41 +30,6 @@ public class TapLuatDAO {
         dataBaseUtils = DataBaseUtils.getInstance();
 
     }
-    
-//    public TapLuat themKhachHang(TapLuat tapLuat) throws Exception {
-//        TapLuat thongTinCaNhan = new TapLuat(
-//                khachHang.getcMND(),
-//                khachHang.getHoTen(),
-//                khachHang.isGioiTinh(),
-//                khachHang.getSoDienThoai(),
-//                khachHang.getDiaChi(),
-//                khachHang.getNgaySinh()
-//        );
-//
-//        if (thongTinCaNhanDAO.themThongTinCaNhan(thongTinCaNhan) == null)
-//            return null;
-//
-//        String sql = "INSERT INTO KHACHHANG (MAKH, CMND) VALUES (?,?)";
-//        try {
-//            preparedStatement = dataBaseUtils.excuteQueryWrite(sql);
-//
-//            preparedStatement.setString(1, khachHang.getMaKH());
-//            preparedStatement.setString(2, khachHang.getcMND());
-//
-//            if (preparedStatement.executeUpdate() > 0) {
-//                dataBaseUtils.commitQuery();
-//                return getKhachHang(khachHang.getMaKH());
-//            }
-//
-//        } catch (Exception e) {
-//            dataBaseUtils.rollbackQuery();
-//            throw new Exception("Lỗi thêm khách hàng");
-//        } finally {
-//            preparedStatement.close();
-//        }
-//
-//        return null;
-//    }
 
     public static TapLuatDAO getInstance() throws Exception {
         if (_instance == null) {
@@ -121,5 +88,85 @@ public class TapLuatDAO {
         }
         System.out.println("Trả về danh sách tập luật");
         return tapLuats;
+    }
+
+    /**
+     * Thêm khách hàng mới vào DB
+     *
+     * @param khachHang
+     * @return
+     * @throws Exception
+     */
+    public TapLuat addTapLuat(TapLuat tapLuat) throws Exception {
+
+//        if (tapLuatDAO.themThongTinCaNhan(thongTinCaNhan) == null) {
+//            return null;
+//        }
+        String sql = "INSERT INTO rules (ruleGroupID, content) VALUES (?,?)";
+        try {
+            preparedStatement = dataBaseUtils.excuteQueryWrite(sql);
+
+            preparedStatement.setInt(1, 1);
+            preparedStatement.setString(2, tapLuat.getContent());
+
+            if (preparedStatement.executeUpdate() > 0) {
+                dataBaseUtils.commitQuery();
+                return tapLuat;
+            }
+
+        } catch (Exception e) {
+            dataBaseUtils.rollbackQuery();
+            throw new Exception("Lỗi thêm luật");
+        } finally {
+            preparedStatement.close();
+        }
+
+        return null;
+    }
+
+    public boolean xoaTapLuat(int ruleID) throws Exception {
+        String sql = "DELETE FROM rules WHERE ruleID = ?";
+
+        try {
+            preparedStatement = dataBaseUtils.excuteQueryWrite(sql);
+
+            preparedStatement.setInt(1, ruleID);
+
+            if (preparedStatement.executeUpdate() > 0) {
+                dataBaseUtils.commitQuery();
+            }
+        } catch (Exception e) {
+            dataBaseUtils.rollbackQuery();
+            throw new Exception("Lỗi xoá khách hàng");
+        } finally {
+            preparedStatement.close();
+        }
+
+        return false;
+    }
+
+    public TapLuat suaTapLuat(TapLuat tapLuat) throws Exception {
+        String sql = "UPDATE rules SET "
+                + "content = ?"
+                + "WHERE ruleID = ?";
+
+        try {
+            preparedStatement = dataBaseUtils.excuteQueryWrite(sql);
+
+            preparedStatement.setString(1, tapLuat.getContent());
+            preparedStatement.setInt(2, tapLuat.getRuleID());
+
+            if (preparedStatement.executeUpdate() > 0) {
+                dataBaseUtils.commitQuery();
+                return getTapLuat(tapLuat.getRuleID());
+            }
+        } catch (Exception e) {
+            dataBaseUtils.rollbackQuery();
+            throw new Exception("Lỗi cập nhật thông tin cá nhân");
+        } finally {
+            preparedStatement.close();
+        }
+
+        return null;
     }
 }
