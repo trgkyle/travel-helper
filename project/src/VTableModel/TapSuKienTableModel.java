@@ -51,7 +51,7 @@ public class TapSuKienTableModel extends AbstractTableModel {
 
             switch (columnIndex) {
                 case 0:
-                    return row.getEventID();
+                    return (char)(64+row.getEventTypeID()) + "" + row.getEventID();
                 case 1:
                     return row.getValue();
             }

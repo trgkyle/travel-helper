@@ -47,7 +47,6 @@ go
 
 Create table [rules] (
 	[ruleID] Integer Identity NOT NULL UNIQUE,
-	[ruleGroupID] Integer NOT NULL,
 	[content] Char(80) NULL,
 Primary Key  ([ruleID])
 ) 
@@ -65,6 +64,7 @@ Create table [ruleGroups] (
 	[right] Integer NOT NULL,
 	[left1] Integer NOT NULL,
 	[left2] Integer NOT NULL,
+	[ruleID] Integer NOT NULL,
 Primary Key  ([ruleGroupID])
 ) 
 go
@@ -76,9 +76,9 @@ Alter table [ruleGroups] add  foreign key([left2]) references [events] ([eventID
 go
 Alter table [ruleGroups] add  foreign key([right]) references [events] ([eventID]) 
 go
-Alter table [events] add  foreign key([eventTypeID]) references [eventTypes] ([eventTypeID]) 
+Alter table [ruleGroups] add  foreign key([ruleID]) references [rules] ([ruleID]) 
 go
-Alter table [rules] add  foreign key([ruleGroupID]) references [ruleGroups] ([ruleGroupID]) 
+Alter table [events] add  foreign key([eventTypeID]) references [eventTypes] ([eventTypeID]) 
 go
 
 Set quoted_identifier on
@@ -320,12 +320,14 @@ VALUES ('Sapa',8)
 INSERT INTO events(value, eventTypeID)
 VALUES ('Vuong Quoc Gia Ba Vi',8)
 
+INSERT INTO rules (content)
+VALUES('A1^D26->G37')
 
-INSERT INTO ruleGroups(left1,left2,[right])
-VALUES (26,26,37)
+INSERT INTO ruleGroups(left1,left2,[right],ruleID)
+VALUES (1,26,37,1)
 
-INSERT INTO rules(ruleGroupID, content)
-VALUES (1,"Test test test")
+INSERT INTO ruleGroups(left1,left2,[right],ruleID)
+VALUES (26,1,37,1)
 
 Set quoted_identifier on
 go

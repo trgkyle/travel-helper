@@ -51,7 +51,7 @@ public class DanhSachTapLuat {
      * @throws Exception
      */
     public void them(String rule) throws Exception {
-        TapLuat newTapLuat = new TapLuat(1,1,rule);
+        TapLuat newTapLuat = new TapLuat(1,rule);
         // kiểm tra trùng mã khách hàng
         if (newTapLuat == null || tapLuats.contains(newTapLuat))
             throw new Exception("Đã có tập luật này trên hệ thống");

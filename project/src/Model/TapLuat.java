@@ -11,12 +11,10 @@ package Model;
  */
 public class TapLuat {
     private int ruleID;
-    private int ruleGroupID;
     private String content;
 
-    public TapLuat(int ruleID, int ruleGroupID, String content) {
+    public TapLuat(int ruleID, String content) {
         this.ruleID = ruleID;
-        this.ruleGroupID = ruleGroupID;
         this.content = content;
     }
 
@@ -24,9 +22,6 @@ public class TapLuat {
         return ruleID;
     }
 
-    public int getRuleGroupID() {
-        return ruleGroupID;
-    }
 
     public String getContent() {
         return content;
@@ -36,17 +31,13 @@ public class TapLuat {
         this.ruleID = ruleID;
     }
 
-    public void setRuleGroupID(int ruleGroupID) {
-        this.ruleGroupID = ruleGroupID;
-    }
-
     public void setContent(String content) {
         this.content = content;
     }
 
     @Override
     public String toString() {
-        return "TapLuat{" + "ruleID=" + ruleID + ", ruleGroupID=" + ruleGroupID + ", content=" + content + '}';
+        return "TapLuat{" + "ruleID=" + ruleID + ", content=" + content + '}';
     }
 
   

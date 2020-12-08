@@ -62,7 +62,16 @@ public class DataBaseUtils {
         }
         return null;
     }
+    
+    public PreparedStatement excuteQueryWrite(String sql, String[] genKey) {
+        try {
+            return _connection.prepareStatement(sql, genKey);
+        } catch (Exception e) {
 
+        }
+        return null;
+    }
+    
     /**
      * Thực thi script sql select
      *

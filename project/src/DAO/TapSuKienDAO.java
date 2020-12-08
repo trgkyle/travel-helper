@@ -29,40 +29,6 @@ public class TapSuKienDAO {
 
     }
 
-//    public TapLuat themKhachHang(TapLuat tapLuat) throws Exception {
-//        TapLuat thongTinCaNhan = new TapLuat(
-//                khachHang.getcMND(),
-//                khachHang.getHoTen(),
-//                khachHang.isGioiTinh(),
-//                khachHang.getSoDienThoai(),
-//                khachHang.getDiaChi(),
-//                khachHang.getNgaySinh()
-//        );
-//
-//        if (thongTinCaNhanDAO.themThongTinCaNhan(thongTinCaNhan) == null)
-//            return null;
-//
-//        String sql = "INSERT INTO KHACHHANG (MAKH, CMND) VALUES (?,?)";
-//        try {
-//            preparedStatement = dataBaseUtils.excuteQueryWrite(sql);
-//
-//            preparedStatement.setString(1, khachHang.getMaKH());
-//            preparedStatement.setString(2, khachHang.getcMND());
-//
-//            if (preparedStatement.executeUpdate() > 0) {
-//                dataBaseUtils.commitQuery();
-//                return getKhachHang(khachHang.getMaKH());
-//            }
-//
-//        } catch (Exception e) {
-//            dataBaseUtils.rollbackQuery();
-//            throw new Exception("Lỗi thêm khách hàng");
-//        } finally {
-//            preparedStatement.close();
-//        }
-//
-//        return null;
-//    }
     public static TapSuKienDAO getInstance() throws Exception {
         if (_instance == null) {
             synchronized (KhachHangDAO.class) {

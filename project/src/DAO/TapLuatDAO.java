@@ -52,7 +52,6 @@ public class TapLuatDAO {
             resultSet.next();
             tapLuat = new TapLuat(
                     resultSet.getInt("ruleID"),
-                    resultSet.getInt("ruleGroupID"),
                     resultSet.getString("content")
             );
 
@@ -75,7 +74,6 @@ public class TapLuatDAO {
             while (resultSet.next()) {
                 TapLuat tapLuat = new TapLuat(
                         resultSet.getInt("ruleID"),
-                        resultSet.getInt("ruleGroupID"),
                         resultSet.getString("content")
                 );
                 tapLuats.add(tapLuat);
@@ -99,29 +97,52 @@ public class TapLuatDAO {
      */
     public TapLuat addTapLuat(TapLuat tapLuat) throws Exception {
 
-//        if (tapLuatDAO.themThongTinCaNhan(thongTinCaNhan) == null) {
-//            return null;
-//        }
-        String sql = "INSERT INTO rules (ruleGroupID, content) VALUES (?,?)";
+        String sql = "INSERT INTO rules (content) VALUES (?)";
+        String sqlInsertGroup = "INSERT INTO ruleGroups (left1,left2,[right],ruleID) VALUES (?,?,?,?)";
         try {
-            preparedStatement = dataBaseUtils.excuteQueryWrite(sql);
-
-            preparedStatement.setInt(1, 1);
-            preparedStatement.setString(2, tapLuat.getContent());
-
-            if (preparedStatement.executeUpdate() > 0) {
-                dataBaseUtils.commitQuery();
-                return tapLuat;
+            int index = -1;
+            preparedStatement = dataBaseUtils.excuteQueryWrite(sql, new String[]{"ruleID"});
+            preparedStatement.setString(1, tapLuat.getContent());
+            preparedStatement.executeUpdate();
+            resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                index = resultSet.getInt(1);
             }
+            dataBaseUtils.commitQuery();
+            String rules[];
+            String rule = tapLuat.getContent().replaceAll("([a-z]|[A-Z])", "");
+            rules = rule.split("\\^|->");
+
+            for (String rulesLoop : rules) {
+                System.out.println(rulesLoop);
+            }
+            for (int i = 0; i < rules.length - 1; i++) {
+                for (int j = 0; j < rules.length - 1; j++) {
+                    if (j == i) {
+                        continue;
+                    }
+                    preparedStatement = dataBaseUtils.excuteQueryWrite(sqlInsertGroup);
+                    preparedStatement.setInt(1, Integer.parseInt(rules[i].trim()));
+                    preparedStatement.setInt(2, Integer.parseInt(rules[j].trim()));
+                    preparedStatement.setInt(3, Integer.parseInt(rules[rules.length - 1].trim()));
+                    preparedStatement.setInt(4, index);
+
+                    preparedStatement.executeUpdate();
+                }
+                dataBaseUtils.commitQuery();
+            }
+
+            return tapLuat;
 
         } catch (Exception e) {
             dataBaseUtils.rollbackQuery();
+            System.out.println(e);
             throw new Exception("Lỗi thêm luật");
+
         } finally {
             preparedStatement.close();
         }
 
-        return null;
     }
 
     public boolean xoaTapLuat(int ruleID) throws Exception {
@@ -137,7 +158,7 @@ public class TapLuatDAO {
             }
         } catch (Exception e) {
             dataBaseUtils.rollbackQuery();
-            throw new Exception("Lỗi xoá khách hàng");
+            throw new Exception("Lỗi xoá luat");
         } finally {
             preparedStatement.close();
         }
@@ -162,7 +183,7 @@ public class TapLuatDAO {
             }
         } catch (Exception e) {
             dataBaseUtils.rollbackQuery();
-            throw new Exception("Lỗi cập nhật thông tin cá nhân");
+            throw new Exception("Lỗi cập nhật tap luat");
         } finally {
             preparedStatement.close();
         }
