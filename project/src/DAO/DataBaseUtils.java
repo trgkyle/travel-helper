@@ -41,7 +41,7 @@ public class DataBaseUtils {
     public static Connection getConnection() {
         Connection connection = null;
         String url = "jdbc:sqlserver://localhost:1433;databasename=TRAVELHELPER";
-        String user = "truongkyle";
+        String user = "sa";
         String password = "Admin@123";
         try {
             connection = DriverManager.getConnection(url, user, password);

@@ -13,6 +13,7 @@ import java.util.ArrayList;
  * @author Truong-kyle
  */
 public class DanhSachTapLuat {
+    public static ArrayList<TapLoaiSuKien> tapLoaiSuKien;
     private ArrayList<TapLuat> tapLuats;
     private static TapLuatDAO tapLuatDAO;
 
@@ -103,5 +104,9 @@ public class DanhSachTapLuat {
                 return i;
 
         return -1;
+    }
+    
+    public void updateLoaiSuKien(ArrayList<TapLoaiSuKien> tapLoaiSuKien){
+        DanhSachTapLuat.tapLoaiSuKien = tapLoaiSuKien;
     }
 }

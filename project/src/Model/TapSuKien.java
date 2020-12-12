@@ -13,13 +13,23 @@ public class TapSuKien {
     private int eventID;
     private int eventTypeID;
     private String value;
-
-    public TapSuKien(int eventID, int eventTypeID, String value) {
+    private String eventTypeName;
+    
+    public TapSuKien(int eventID, int eventTypeID, String value, String eventTypeName) {
         this.eventID = eventID;
         this.eventTypeID = eventTypeID;
         this.value = value;
+        this.eventTypeName = eventTypeName;
     }
 
+    public String getEventTypeName() {
+        return eventTypeName;
+    }
+
+    public void setEventTypeName(String eventTypeName) {
+        this.eventTypeName = eventTypeName;
+    }
+    
     public int getEventID() {
         return eventID;
     }
@@ -46,9 +56,7 @@ public class TapSuKien {
 
     @Override
     public String toString() {
-        return "TapSuKien{" + "eventID=" + eventID + ", eventTypeID=" + eventTypeID + ", value=" + value + '}';
+        return "TapSuKien{" + "eventID=" + eventID + ", eventTypeID=" + eventTypeID + ", value=" + value + ", eventTypeName=" + eventTypeName + '}';
     }
-
-
     
 }

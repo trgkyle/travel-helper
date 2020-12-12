@@ -13,8 +13,5 @@ import VTabbed.Dashboard;
 public class Run {
     public static void main(String args[]) {
         Dashboard dashboard = new Dashboard();
-//        new DangNhap();
     }
 }
-
-// mai thi

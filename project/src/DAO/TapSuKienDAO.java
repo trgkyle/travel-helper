@@ -5,6 +5,8 @@
  */
 package DAO;
 
+import Model.DanhSachTapLuat;
+import Model.TapLoaiSuKien;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import Model.TapSuKien;
@@ -42,7 +44,7 @@ public class TapSuKienDAO {
 
     public TapSuKien getTapSuKien(int eventID) throws Exception {
         TapSuKien tapSuKien = null;
-        String sql = String.format("SELECT * FROM events WHERE eventID = '%s'", eventID);
+        String sql = String.format("SELECT * FROM events INNER JOIN eventTypes ON events.eventTypeID = eventTypes.eventTypeID WHERE eventID = '%s'", eventID);
 
         try {
             System.out.println("Try in su kien");
@@ -51,7 +53,8 @@ public class TapSuKienDAO {
             tapSuKien = new TapSuKien(
                     resultSet.getInt("eventID"),
                     resultSet.getInt("eventTypeID"),
-                    resultSet.getString("value")
+                    resultSet.getString("value"),
+                    resultSet.getString("name")
             );
 
         } catch (Exception e) {
@@ -65,7 +68,7 @@ public class TapSuKienDAO {
 
     public ArrayList<TapSuKien> getTapSuKiens() throws Exception {
         ArrayList<TapSuKien> tapSuKiens = new ArrayList<>();
-        String sql = String.format("SELECT * FROM events");
+        String sql = String.format("SELECT * FROM events INNER JOIN eventTypes ON events.eventTypeID = eventTypes.eventTypeID");
 
         try {
             resultSet = dataBaseUtils.excuteQueryRead(sql);
@@ -74,7 +77,8 @@ public class TapSuKienDAO {
                 TapSuKien tapSuKien = new TapSuKien(
                         resultSet.getInt("eventID"),
                         resultSet.getInt("eventTypeID"),
-                        resultSet.getString("value")
+                        resultSet.getString("value"),
+                        resultSet.getString("name")
                 );
                 tapSuKiens.add(tapSuKien);
             }
@@ -86,5 +90,28 @@ public class TapSuKienDAO {
         }
         System.out.println("Trả về danh sách sự kiện");
         return tapSuKiens;
+    }
+    
+    public void updateTapLoaiSuKiens() throws Exception {
+        ArrayList<TapLoaiSuKien> tapNhomSuKiens = new ArrayList<>();
+        DanhSachTapLuat dSTL = new DanhSachTapLuat();
+        String sql = String.format("SELECT * FROM eventTypes");
+        try {
+            resultSet = dataBaseUtils.excuteQueryRead(sql);
+
+            while (resultSet.next()) {
+                TapLoaiSuKien tapLoaiSuKien = new TapLoaiSuKien(
+                        resultSet.getInt("eventTypeID"),
+                        resultSet.getString("name")
+                );
+                tapNhomSuKiens.add(tapLoaiSuKien);
+            }
+            System.out.println("out");
+        } catch (Exception e) {
+            throw new Exception("Lỗi lấy danh sách tập loại sự kiện");
+        } finally {
+            resultSet.close();
+        }
+        dSTL.updateLoaiSuKien(tapNhomSuKiens);
     }
 }

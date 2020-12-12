@@ -116,20 +116,32 @@ public class TapLuatDAO {
             for (String rulesLoop : rules) {
                 System.out.println(rulesLoop);
             }
-            for (int i = 0; i < rules.length - 1; i++) {
-                for (int j = 0; j < rules.length - 1; j++) {
-                    if (j == i) {
-                        continue;
-                    }
-                    preparedStatement = dataBaseUtils.excuteQueryWrite(sqlInsertGroup);
-                    preparedStatement.setInt(1, Integer.parseInt(rules[i].trim()));
-                    preparedStatement.setInt(2, Integer.parseInt(rules[j].trim()));
-                    preparedStatement.setInt(3, Integer.parseInt(rules[rules.length - 1].trim()));
-                    preparedStatement.setInt(4, index);
+            System.out.println("length : " + rules.length);
+            if (rules.length == 2) {
+                preparedStatement = dataBaseUtils.excuteQueryWrite(sqlInsertGroup);
+                preparedStatement.setInt(1, Integer.parseInt(rules[0].trim()));
+                preparedStatement.setInt(2, Integer.parseInt(rules[0].trim()));
+                preparedStatement.setInt(3, Integer.parseInt(rules[rules.length - 1].trim()));
+                preparedStatement.setInt(4, index);
 
-                    preparedStatement.executeUpdate();
-                }
+                preparedStatement.executeUpdate();
                 dataBaseUtils.commitQuery();
+            } else {
+                for (int i = 0; i < rules.length - 1; i++) {
+                    for (int j = 0; j < rules.length - 1; j++) {
+                        if (j == i) {
+                            continue;
+                        }
+                        preparedStatement = dataBaseUtils.excuteQueryWrite(sqlInsertGroup);
+                        preparedStatement.setInt(1, Integer.parseInt(rules[i].trim()));
+                        preparedStatement.setInt(2, Integer.parseInt(rules[j].trim()));
+                        preparedStatement.setInt(3, Integer.parseInt(rules[rules.length - 1].trim()));
+                        preparedStatement.setInt(4, index);
+
+                        preparedStatement.executeUpdate();
+                    }
+                    dataBaseUtils.commitQuery();
+                }
             }
 
             return tapLuat;
