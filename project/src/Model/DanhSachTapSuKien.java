@@ -23,7 +23,7 @@ public class DanhSachTapSuKien {
     }
 
     /**
-     * Lấy danh sách khách hàng
+     * Lấy danh sách tập sự kiện
      *
      * @return
      */
@@ -32,7 +32,7 @@ public class DanhSachTapSuKien {
     }
 
     /**
-     * Load danh sách khách hàng từ DB lên
+     * Load danh sách tập sự kiện từ DB lên
      *
      * @throws Exception
      */
@@ -41,26 +41,25 @@ public class DanhSachTapSuKien {
     }
 
     /**
-     * Thêm khách hàng mới (không cho thêm trùng mã khách hàng + CMND) Lưu khách
-     * hàng vào DB
+     * Thêm tập sự kiện mới (không cho thêm trùng mã tập sự kiện + CMND) Lưu tập sự kiện vào DB
      *
-     * @param khachHang
+     * @param tapSuKien
      * @return
      * @throws Exception
      */
     public void them(TapSuKien tapSuKien) throws Exception {
         // kiểm tra trùng mã khách hàng
         if (tapSuKien == null || tapSuKiens.contains(tapSuKien)) {
-            throw new Exception("Đã có khách hàng này trong hệ thống");
+            throw new Exception("Đã có tập sự kiện này trong hệ thống");
         }
 
 //        tapSuKiens.add(tapSuKienDAO.themKhachHang(khachHang));
     }
 
     /**
-     * Xoá khách hàng Xoá khách hàng tương ứng trong DB
+     * Xoá khách hàng Xoá tập sự kiện tương ứng trong DB
      *
-     * @param maKhachHang
+     * @param ruleID
      * @return
      * @throws Exception
      */
@@ -71,26 +70,24 @@ public class DanhSachTapSuKien {
             return false;
         }
         return false;
-//        return tapSuKienDAO.xoaKhachHang(ruleID) && tapSuKiens.remove(tapSuKien);
     }
 
     /**
-     * Cập nhật thông tin khách hàng Cập nhật thông tin khách hàng tương ứng
+     * Cập nhật thông tin tập sự kiện Cập nhật thông tin tập sự kiện tương ứng
      * trong DB
      *
-     * @param khachHang
+     * @param tapSuKien
      * @return
      * @throws Exception
      */
-    public boolean sua(KhachHang khachHang) throws Exception {
+    public boolean sua(TapSuKien tapSuKien) throws Exception {
         return false;
-//        return tapSuKiens.set(tim(khachHang.getMaKH()), khachHangDAO.suaKhachHang(khachHang)) != null;
     }
 
     /**
-     * Tìm vị trí của khách hàng trong danh sách
+     * Tìm vị trí của tập sự kiện trong danh sách
      *
-     * @param maKhachHang
+     * @param ruleID
      * @return
      */
     public int tim(int ruleID) {

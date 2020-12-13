@@ -33,7 +33,7 @@ public class TapSuKienDAO {
 
     public static TapSuKienDAO getInstance() throws Exception {
         if (_instance == null) {
-            synchronized (KhachHangDAO.class) {
+            synchronized (TapSuKienDAO.class) {
                 if (null == _instance) {
                     _instance = new TapSuKienDAO();
                 }

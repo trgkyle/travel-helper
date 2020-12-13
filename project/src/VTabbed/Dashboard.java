@@ -5,7 +5,6 @@
  */
 package VTabbed;
 
-import Model.DanhSachKhachHang;
 import Model.DanhSachTapLuat;
 import Model.DanhSachTapSuKien;
 import Model.TapLuat;
@@ -149,9 +148,7 @@ public class Dashboard extends javax.swing.JFrame {
             danhSachTapLuat = new DanhSachTapLuat();
             danhSachTapSuKien = new DanhSachTapSuKien();
             prepareUI();
-            //System.out.println("Load Bang Quan Ly Khach Hang");
         } catch (Exception ex) {
-            Logger.getLogger(QuanLyKhachHangTab.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         this.setVisible(true);

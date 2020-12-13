@@ -24,7 +24,7 @@ public class DanhSachTapLuat {
 
 
     /**
-     * Lấy danh sách khách hàng
+     * Lấy danh sách tập luật
      *
      * @return
      */
@@ -34,7 +34,7 @@ public class DanhSachTapLuat {
 
 
     /**
-     * Load danh sách khách hàng từ DB lên
+     * Load danh sách tập luật từ DB lên
      *
      * @throws Exception
      */
@@ -44,10 +44,9 @@ public class DanhSachTapLuat {
 
 
     /**
-     * Thêm khách hàng mới (không cho thêm trùng mã khách hàng + CMND)
-     * Lưu khách hàng vào DB
+     * Thêm tập luật
      *
-     * @param khachHang
+     * @param rule
      * @return
      * @throws Exception
      */
@@ -62,8 +61,8 @@ public class DanhSachTapLuat {
 
 
     /**
-     * Xoá khách hàng
-     * Xoá khách hàng tương ứng trong DB
+     * Xoá tập luật
+     * Xoá tập luật tương ứng trong DB
      *
      * @param maKhachHang
      * @return
@@ -80,10 +79,10 @@ public class DanhSachTapLuat {
 
 
     /**
-     * Cập nhật thông tin khách hàng
-     * Cập nhật thông tin khách hàng tương ứng trong DB
+     * Cập nhật thông tin tập luật
+     * Cập nhật thông tin tập luật tương ứng trong DB
      *
-     * @param khachHang
+     * @param tapLuat
      * @return
      * @throws Exception
      */
@@ -93,9 +92,9 @@ public class DanhSachTapLuat {
 
 
     /**
-     * Tìm vị trí của khách hàng trong danh sách
+     * Tìm vị trí của tập luật trong danh sách
      *
-     * @param maKhachHang
+     * @param ruleID
      * @return
      */
     public int tim(int ruleID) {
