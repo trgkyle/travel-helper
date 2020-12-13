@@ -320,15 +320,6 @@ VALUES ('Sapa',8)
 INSERT INTO events(value, eventTypeID)
 VALUES ('Vuong Quoc Gia Ba Vi',8)
 
-INSERT INTO rules (content)
-VALUES('A1^D26->G37')
-
-INSERT INTO ruleGroups(left1,left2,[right],ruleID)
-VALUES (1,26,37,1)
-
-INSERT INTO ruleGroups(left1,left2,[right],ruleID)
-VALUES (26,1,37,1)
-
 Set quoted_identifier on
 go
 
