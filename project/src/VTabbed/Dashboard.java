@@ -8,12 +8,15 @@ package VTabbed;
 import Model.DanhSachTapLuat;
 import Model.DanhSachTapSuKien;
 import Model.TapLuat;
+import Model.TapSuKien;
 import VBoxModel.TapSuKienSelectVBoxModel;
 import VBoxModel.TapSuKienVBoxModel;
 import VTableModel.TapLuatTableModel;
 import VTableModel.TapSuKienTableModel;
+import VTableModel.TapSuKienSelectedTableModel;
 import java.awt.Component;
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -34,8 +37,11 @@ public class Dashboard extends javax.swing.JFrame {
     private int indexFilter = 0;
     private TapLuatTableModel tapLuatTableModel;
     private TapSuKienTableModel tapSuKienTableModel;
+    private TapSuKienSelectedTableModel tapSuKienSelectedTableModel;
     private TableRowSorter<TableModel> sorter;
     private final Component rootComponent = this;
+
+    private ArrayList<TapSuKien> tapSuKienSelected;
 
     /**
      * Creates new form Dashboard
@@ -77,7 +83,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         sorter = new TableRowSorter<>(tapLuatTableModel);
 
-        tableRules.setModel(tapLuatTableModel); //= new JTable(khachHangTableModel);
+        tableRules.setModel(tapLuatTableModel);
         tableRules.setRowSorter(sorter);
 
 //        tap su kien table
@@ -85,8 +91,16 @@ public class Dashboard extends javax.swing.JFrame {
 
         sorter = new TableRowSorter<>(tapSuKienTableModel);
 
-        tableEvents.setModel(tapSuKienTableModel); //= new JTable(khachHangTableModel);
+        tableEvents.setModel(tapSuKienTableModel);
         tableEvents.setRowSorter(sorter);
+
+//        tap su kien selected table
+        tapSuKienSelectedTableModel = new TapSuKienSelectedTableModel(danhSachTapSuKien.getAll());
+
+        sorter = new TableRowSorter<>(tapSuKienSelectedTableModel);
+
+        tableEventSelects.setModel(tapSuKienSelectedTableModel);
+        tableEventSelects.setRowSorter(sorter);
 
         refresh(true);
     }
@@ -124,6 +138,15 @@ public class Dashboard extends javax.swing.JFrame {
             tableEvents.revalidate();
             tableEvents.repaint();
 
+//            tap su kien selected
+            tapSuKienSelectedTableModel.setModel(tapSuKienSelected);
+            tableEventSelects.setModel(tapSuKienSelectedTableModel);
+
+            sorter.setModel(tapSuKienSelectedTableModel);
+
+            tableEventSelects.revalidate();
+            tableEventSelects.repaint();
+
 //            tap su kien cbx
             DefaultComboBoxModel modelTSK = new DefaultComboBoxModel();
             for (int i = 0; i < danhSachTapSuKien.getAllLoaiSuKien().size(); i++) {
@@ -155,6 +178,7 @@ public class Dashboard extends javax.swing.JFrame {
         try {
             danhSachTapLuat = new DanhSachTapLuat();
             danhSachTapSuKien = new DanhSachTapSuKien();
+            tapSuKienSelected = new ArrayList<>();
             prepareUI();
         } catch (Exception ex) {
         }
@@ -521,13 +545,13 @@ public class Dashboard extends javax.swing.JFrame {
 
         tableEventSelects.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Sự kiện"
+                "Sự kiện", "Loại sự kiện"
             }
         ));
         jScrollPane4.setViewportView(tableEventSelects);
@@ -539,6 +563,11 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel4.setText("Khảo sát sự kiện");
 
         jButton1.setText("Thêm sự kiện");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
@@ -581,12 +610,13 @@ public class Dashboard extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(100, 100, 100))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -713,6 +743,14 @@ public class Dashboard extends javax.swing.JFrame {
     private void cbxTypeEventsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTypeEventsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxTypeEventsActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+//        System.out.println();
+        tapSuKienSelected.add(danhSachTapSuKien.getAll().get(cbxEvents.getSelectedIndex()));
+        refresh(true);
+//        tableEventSelects
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
