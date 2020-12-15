@@ -10,6 +10,7 @@ import Model.TapLoaiSuKien;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import Model.TapSuKien;
+import java.sql.PreparedStatement;
 
 /**
  *
@@ -20,6 +21,7 @@ public class TapSuKienDAO {
     private static TapSuKienDAO _instance;
     private static DataBaseUtils dataBaseUtils;
     private ResultSet resultSet;
+    private PreparedStatement preparedStatement;
 
     /**
      * Tạo kết nối DB
@@ -113,5 +115,28 @@ public class TapSuKienDAO {
         }
         System.out.println("tra ve tap loai su kien");
         return tapNhomSuKiens;
+    }
+    
+        public TapSuKien addSuKien(TapSuKien tapSuKien) throws Exception {
+
+        String sql = "INSERT INTO events (eventTypeID,value) VALUES (?,?)";
+        try {
+            preparedStatement = dataBaseUtils.excuteQueryWrite(sql);
+            preparedStatement.setInt(1, tapSuKien.getEventTypeID());
+            preparedStatement.setString(2, tapSuKien.getValue());
+            preparedStatement.executeUpdate();
+            dataBaseUtils.commitQuery();
+
+            return tapSuKien;
+
+        } catch (Exception e) {
+            dataBaseUtils.rollbackQuery();
+            System.out.println(e);
+            throw new Exception("Lỗi thêm sự kiện");
+
+        } finally {
+            preparedStatement.close();
+        }
+
     }
 }

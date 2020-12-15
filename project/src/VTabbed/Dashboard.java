@@ -77,6 +77,13 @@ public class Dashboard extends javax.swing.JFrame {
         return true;
     }
 
+    private boolean addEvent(int eventTypeID, String event) throws Exception {
+        event = event.trim();
+
+        danhSachTapSuKien.them(eventTypeID, event);
+        return true;
+    }
+
     private void prepareUI() {
 //        tap luat table
         tapLuatTableModel = new TapLuatTableModel(danhSachTapLuat.getAll());
@@ -401,6 +408,11 @@ public class Dashboard extends javax.swing.JFrame {
         );
 
         jButton4.setText("Thêm sự kiện");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Tên sự kiện");
 
@@ -751,6 +763,22 @@ public class Dashboard extends javax.swing.JFrame {
         refresh(true);
 //        tableEventSelects
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        String rule = inpuSuKien.getText();
+        try {
+            if (addEvent(danhSachTapSuKien.getAllLoaiSuKien().get(cbxEvents.getSelectedIndex()).getEventTypeID(), rule)) {
+                inpuSuKien.setText("");
+            } else {
+                System.out.println("Có lỗi thêm sự kiện");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            refresh(true);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

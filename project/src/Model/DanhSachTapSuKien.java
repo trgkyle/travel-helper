@@ -13,10 +13,11 @@ import java.util.ArrayList;
  * @author Truong-kyle
  */
 public class DanhSachTapSuKien {
+
     private ArrayList<TapLoaiSuKien> tapLoaiSuKien;
     private ArrayList<TapSuKien> tapSuKiens;
     private static TapSuKienDAO tapSuKienDAO;
-    
+
     public DanhSachTapSuKien() throws Exception {
         tapSuKienDAO = TapSuKienDAO.getInstance();
         loadData();
@@ -30,11 +31,11 @@ public class DanhSachTapSuKien {
     public ArrayList<TapSuKien> getAll() {
         return tapSuKiens;
     }
-    
+
     public ArrayList<TapLoaiSuKien> getAllLoaiSuKien() {
         return tapLoaiSuKien;
     }
-    
+
     /**
      * Load danh sách tập sự kiện từ DB lên
      *
@@ -46,19 +47,22 @@ public class DanhSachTapSuKien {
     }
 
     /**
-     * Thêm tập sự kiện mới (không cho thêm trùng mã tập sự kiện + CMND) Lưu tập sự kiện vào DB
+     * Thêm tập sự kiện mới (không cho thêm trùng mã tập sự kiện + CMND) Lưu tập
+     * sự kiện vào DB
      *
      * @param tapSuKien
      * @return
      * @throws Exception
      */
-    public void them(TapSuKien tapSuKien) throws Exception {
+    public void them(int eventTypeID, String event) throws Exception {
+        TapSuKien newTapSuKien = new TapSuKien(-1, eventTypeID, event, "");
         // kiểm tra trùng mã khách hàng
-        if (tapSuKien == null || tapSuKiens.contains(tapSuKien)) {
-            throw new Exception("Đã có tập sự kiện này trong hệ thống");
+        if (newTapSuKien == null || tapSuKiens.contains(newTapSuKien)) {
+            throw new Exception("Đã có tập luật này trên hệ thống");
         }
+        tapSuKienDAO.addSuKien(newTapSuKien);
+        tapSuKiens = tapSuKienDAO.getTapSuKiens();
 
-//        tapSuKiens.add(tapSuKienDAO.themKhachHang(khachHang));
     }
 
     /**
