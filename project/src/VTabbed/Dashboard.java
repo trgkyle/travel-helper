@@ -8,12 +8,16 @@ package VTabbed;
 import Model.DanhSachTapLuat;
 import Model.DanhSachTapSuKien;
 import Model.TapLuat;
+import VBoxModel.TapSuKienSelectVBoxModel;
+import VBoxModel.TapSuKienVBoxModel;
 import VTableModel.TapLuatTableModel;
 import VTableModel.TapSuKienTableModel;
 import java.awt.Component;
 import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
@@ -91,7 +95,6 @@ public class Dashboard extends javax.swing.JFrame {
      * Refresh giao diện khi có cập nhật
      */
     public void refresh(boolean reloadData) {
-//        int oldSelected = getCurrentSelected();
 
         if (reloadData) {
             // load lai dữ liệu
@@ -111,6 +114,7 @@ public class Dashboard extends javax.swing.JFrame {
 
             tableRules.revalidate();
             tableRules.repaint();
+
 //            tap su kien
             tapSuKienTableModel.setModel(danhSachTapSuKien.getAll());
             tableEvents.setModel(tapSuKienTableModel);
@@ -119,23 +123,27 @@ public class Dashboard extends javax.swing.JFrame {
 
             tableEvents.revalidate();
             tableEvents.repaint();
-//            setCurrentSelected(oldSelected);
+
+//            tap su kien cbx
+            DefaultComboBoxModel modelTSK = new DefaultComboBoxModel();
+            for (int i = 0; i < danhSachTapSuKien.getAllLoaiSuKien().size(); i++) {
+                TapSuKienVBoxModel tapSuKienVBoxModel = new TapSuKienVBoxModel(danhSachTapSuKien.getAllLoaiSuKien().get(i));
+                modelTSK.addElement(tapSuKienVBoxModel);
+            }
+            cbxTypeEvents.setModel(modelTSK);
+            cbxTypeEvents.repaint();
+
+//            tap su kien select cbx
+            DefaultComboBoxModel modelTSKS = new DefaultComboBoxModel();
+
+            for (int i = 0; i < danhSachTapSuKien.getAll().size(); i++) {
+                TapSuKienSelectVBoxModel tapSuKienSelectVBoxModel = new TapSuKienSelectVBoxModel(danhSachTapSuKien.getAll().get(i));
+                modelTSKS.addElement(tapSuKienSelectVBoxModel);
+            }
+            cbxEvents.setModel(modelTSKS);
+            cbxEvents.repaint();
         }
-//
-//        // bật tắt chức năng sữa, xoá
-//        if (getCurrentSelected() != -1) {
-//            btnSua.setEnabled(true);
-//            btnSua.setToolTipText("[Alt + S] Cập nhật thông tin khách hàng");
-//
-//            btnXoa.setToolTipText("[Alt + X] Xoá khách hàng");
-//            btnXoa.setEnabled(true);
-//        } else {
-//            btnSua.setToolTipText("Vui lòng chọn khách hàng cần cập nhật thông tin");
-//            btnSua.setEnabled(false);
-//
-//            btnXoa.setToolTipText("Vui lòng chọn khách hàng cần xoá");
-//            btnXoa.setEnabled(false);
-//        }
+
     }
 
     public Dashboard() {
@@ -377,7 +385,6 @@ public class Dashboard extends javax.swing.JFrame {
 
         jLabel6.setText("Tên nhóm sự kiện");
 
-        cbxTypeEvents.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tỉnh thành", "Mùa", "Chi phí", "Hạng mục" }));
         cbxTypeEvents.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxTypeEventsActionPerformed(evt);
@@ -528,8 +535,6 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel11.setText("Danh sách sự kiện lựa chọn");
 
-        cbxEvents.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đi nhiều ngày...." }));
-
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Khảo sát sự kiện");
 
@@ -546,12 +551,12 @@ public class Dashboard extends javax.swing.JFrame {
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
-                            .addComponent(jLabel4)
-                            .addGroup(jPanel13Layout.createSequentialGroup()
-                                .addComponent(cbxEvents, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)
-                                .addComponent(jButton1)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(jLabel4))
+                        .addGap(0, 253, Short.MAX_VALUE))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(cbxEvents, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         jPanel13Layout.setVerticalGroup(
@@ -647,9 +652,9 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(14, 14, 14)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 25, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()

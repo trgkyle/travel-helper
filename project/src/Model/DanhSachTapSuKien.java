@@ -13,10 +13,10 @@ import java.util.ArrayList;
  * @author Truong-kyle
  */
 public class DanhSachTapSuKien {
-
+    private ArrayList<TapLoaiSuKien> tapLoaiSuKien;
     private ArrayList<TapSuKien> tapSuKiens;
     private static TapSuKienDAO tapSuKienDAO;
-
+    
     public DanhSachTapSuKien() throws Exception {
         tapSuKienDAO = TapSuKienDAO.getInstance();
         loadData();
@@ -30,13 +30,18 @@ public class DanhSachTapSuKien {
     public ArrayList<TapSuKien> getAll() {
         return tapSuKiens;
     }
-
+    
+    public ArrayList<TapLoaiSuKien> getAllLoaiSuKien() {
+        return tapLoaiSuKien;
+    }
+    
     /**
      * Load danh sách tập sự kiện từ DB lên
      *
      * @throws Exception
      */
     public void loadData() throws Exception {
+        tapLoaiSuKien = tapSuKienDAO.getTapLoaiSuKiens();
         tapSuKiens = tapSuKienDAO.getTapSuKiens();
     }
 

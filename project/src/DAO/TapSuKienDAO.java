@@ -5,7 +5,7 @@
  */
 package DAO;
 
-import Model.DanhSachTapLuat;
+import Model.DanhSachTapSuKien;
 import Model.TapLoaiSuKien;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -92,9 +92,8 @@ public class TapSuKienDAO {
         return tapSuKiens;
     }
     
-    public void updateTapLoaiSuKiens() throws Exception {
+    public ArrayList<TapLoaiSuKien> getTapLoaiSuKiens() throws Exception {
         ArrayList<TapLoaiSuKien> tapNhomSuKiens = new ArrayList<>();
-        DanhSachTapLuat dSTL = new DanhSachTapLuat();
         String sql = String.format("SELECT * FROM eventTypes");
         try {
             resultSet = dataBaseUtils.excuteQueryRead(sql);
@@ -112,6 +111,7 @@ public class TapSuKienDAO {
         } finally {
             resultSet.close();
         }
-        dSTL.updateLoaiSuKien(tapNhomSuKiens);
+        System.out.println("tra ve tap loai su kien");
+        return tapNhomSuKiens;
     }
 }
