@@ -5,7 +5,6 @@
  */
 package DAO;
 
-import Model.DanhSachTapSuKien;
 import Model.TapLoaiSuKien;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -93,7 +92,7 @@ public class TapSuKienDAO {
         System.out.println("Trả về danh sách sự kiện");
         return tapSuKiens;
     }
-    
+
     public ArrayList<TapLoaiSuKien> getTapLoaiSuKiens() throws Exception {
         ArrayList<TapLoaiSuKien> tapNhomSuKiens = new ArrayList<>();
         String sql = String.format("SELECT * FROM eventTypes");
@@ -116,8 +115,8 @@ public class TapSuKienDAO {
         System.out.println("tra ve tap loai su kien");
         return tapNhomSuKiens;
     }
-    
-        public TapSuKien addSuKien(TapSuKien tapSuKien) throws Exception {
+
+    public TapSuKien addSuKien(TapSuKien tapSuKien) throws Exception {
 
         String sql = "INSERT INTO events (eventTypeID,value) VALUES (?,?)";
         try {

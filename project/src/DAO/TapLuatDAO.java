@@ -5,10 +5,12 @@
  */
 package DAO;
 
+import Model.LogicMenhDe;
 import Model.TapLuat;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -201,5 +203,62 @@ public class TapLuatDAO {
         }
 
         return null;
+    }
+
+    public ArrayList<LogicMenhDe> getMenhDe(int rule) throws Exception {
+        ArrayList<LogicMenhDe> danhSachLogicMenhDe = new ArrayList<>();
+        LogicMenhDe logicMenhDe = null;
+        String sql = String.format("SELECT * FROM ruleGroups WHERE left1 = '%d'",rule);
+
+        try {
+            resultSet = dataBaseUtils.excuteQueryRead(sql);
+
+            while (resultSet.next()) {
+                System.out.println(resultSet.getInt("left1"));
+                System.out.println(resultSet.getInt("left2"));
+                System.out.println(resultSet.getInt("right"));
+                
+                if (logicMenhDe != null) {
+                    if (logicMenhDe.getRight() != resultSet.getInt("right")) {
+                        logicMenhDe = null;
+                    }
+                }
+
+                if (logicMenhDe == null) {
+                    logicMenhDe = new LogicMenhDe();
+                }
+
+                if (!logicMenhDe.getLeft().contains(resultSet.getInt("left1"))) {
+                    logicMenhDe.addLeft(resultSet.getInt("left1"));
+                }
+
+                if (!logicMenhDe.getLeft().contains(resultSet.getInt("left2"))) {
+                    logicMenhDe.addLeft(resultSet.getInt("left2"));
+                }
+                logicMenhDe.setRight(resultSet.getInt("right"));
+                
+                System.out.println(logicMenhDe.toString());
+                if (danhSachLogicMenhDe.size() < 1) {
+                    danhSachLogicMenhDe.add(logicMenhDe);
+                } else {
+                    if (!Objects.equals(danhSachLogicMenhDe.get(danhSachLogicMenhDe.size() - 1).getRight(), logicMenhDe.getRight())) {
+                        danhSachLogicMenhDe.add(logicMenhDe);
+                    }
+                }
+            }
+            System.out.println("out");
+        } catch (Exception e) {
+            throw new Exception("Lỗi lấy danh sách tập mệnh đề");
+        } finally {
+            resultSet.close();
+        }
+        
+        System.out.println("Trả về danh sách mệnh đề");
+        System.out.println("******************");
+        for(int i = 0 ; i < danhSachLogicMenhDe.size(); i ++) {
+            System.out.println(danhSachLogicMenhDe.get(i).toString());
+        }
+        System.out.println("******************");
+        return danhSachLogicMenhDe;
     }
 }

@@ -32,6 +32,6 @@ public class TapSuKienSelectVBoxModel {
     @Override
     public String toString() {
 //        return label;
-    return String.format("%s %15s", value.getValue(), value.getEventTypeName());
+    return String.format("%-20s%s", value.getValue().trim(), "(" + value.getEventTypeName().trim() + ")");
     }
 }

@@ -5,12 +5,17 @@
  */
 package VTabbed;
 
+import DAO.TapLuatDAO;
+import DAO.TapSuKienDAO;
 import Model.DanhSachTapLuat;
 import Model.DanhSachTapSuKien;
+import Model.LogicMenhDe;
 import Model.TapLuat;
 import Model.TapSuKien;
 import VBoxModel.TapSuKienSelectVBoxModel;
 import VBoxModel.TapSuKienVBoxModel;
+import VTableModel.DiaDanhTableModel;
+import VTableModel.LogTableModel;
 import VTableModel.TapLuatTableModel;
 import VTableModel.TapSuKienTableModel;
 import VTableModel.TapSuKienSelectedTableModel;
@@ -38,10 +43,14 @@ public class Dashboard extends javax.swing.JFrame {
     private TapLuatTableModel tapLuatTableModel;
     private TapSuKienTableModel tapSuKienTableModel;
     private TapSuKienSelectedTableModel tapSuKienSelectedTableModel;
+    private DiaDanhTableModel diaDanhTableModel;
+    private LogTableModel logTableModel;
     private TableRowSorter<TableModel> sorter;
     private final Component rootComponent = this;
 
     private ArrayList<TapSuKien> tapSuKienSelected;
+    private ArrayList<TapSuKien> tapDiaDanh;
+    private ArrayList<String> log;
 
     /**
      * Creates new form Dashboard
@@ -102,12 +111,26 @@ public class Dashboard extends javax.swing.JFrame {
         tableEvents.setRowSorter(sorter);
 
 //        tap su kien selected table
-        tapSuKienSelectedTableModel = new TapSuKienSelectedTableModel(danhSachTapSuKien.getAll());
+        tapSuKienSelectedTableModel = new TapSuKienSelectedTableModel(tapSuKienSelected);
 
         sorter = new TableRowSorter<>(tapSuKienSelectedTableModel);
 
         tableEventSelects.setModel(tapSuKienSelectedTableModel);
         tableEventSelects.setRowSorter(sorter);
+
+//        dia danh table
+        diaDanhTableModel = new DiaDanhTableModel(tapSuKienSelected);
+
+//        sorter = new TableRowSorter<>(diaDanhTableModel);
+        tableDiaDanh.setModel(diaDanhTableModel);
+        tableDiaDanh.setRowSorter(sorter);
+
+//        log table
+        logTableModel = new LogTableModel(log);
+
+//        sorter = new TableRowSorter<>(logTableModel);
+        tableLog.setModel(logTableModel);
+//        tableLog.setRowSorter(sorter);
 
         refresh(true);
     }
@@ -132,7 +155,6 @@ public class Dashboard extends javax.swing.JFrame {
             tableRules.setModel(tapLuatTableModel);
 
             sorter.setModel(tapLuatTableModel);
-
             tableRules.revalidate();
             tableRules.repaint();
 
@@ -141,18 +163,33 @@ public class Dashboard extends javax.swing.JFrame {
             tableEvents.setModel(tapSuKienTableModel);
 
             sorter.setModel(tapSuKienTableModel);
-
             tableEvents.revalidate();
             tableEvents.repaint();
+
+//            log
+            System.out.println(log.toString());
+            logTableModel.setModel(log);
+            tableLog.setModel(logTableModel);
+
+//            sorter.setModel(logTableModel);
+            tableLog.revalidate();
+            tableLog.repaint();
 
 //            tap su kien selected
             tapSuKienSelectedTableModel.setModel(tapSuKienSelected);
             tableEventSelects.setModel(tapSuKienSelectedTableModel);
 
             sorter.setModel(tapSuKienSelectedTableModel);
-
             tableEventSelects.revalidate();
             tableEventSelects.repaint();
+
+//            dia danh
+            diaDanhTableModel.setModel(tapDiaDanh);
+            tableDiaDanh.setModel(diaDanhTableModel);
+
+            sorter.setModel(diaDanhTableModel);
+            tableDiaDanh.revalidate();
+            tableDiaDanh.repaint();
 
 //            tap su kien cbx
             DefaultComboBoxModel modelTSK = new DefaultComboBoxModel();
@@ -186,6 +223,9 @@ public class Dashboard extends javax.swing.JFrame {
             danhSachTapLuat = new DanhSachTapLuat();
             danhSachTapSuKien = new DanhSachTapSuKien();
             tapSuKienSelected = new ArrayList<>();
+            tapDiaDanh = new ArrayList<>();
+            log = new ArrayList<>();
+
             prepareUI();
         } catch (Exception ex) {
         }
@@ -227,10 +267,6 @@ public class Dashboard extends javax.swing.JFrame {
         cbxTypeEvents = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
-        jPanel11 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tableEventResults = new javax.swing.JTable();
-        jLabel5 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jPanel13 = new javax.swing.JPanel();
@@ -240,6 +276,13 @@ public class Dashboard extends javax.swing.JFrame {
         cbxEvents = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tableLog = new javax.swing.JTable();
+        jPanel11 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableDiaDanh = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -514,46 +557,12 @@ public class Dashboard extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
-        tableEventResults.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
-            },
-            new String [] {
-                "Địa điểm"
-            }
-        ));
-        jScrollPane3.setViewportView(tableEventResults);
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel5.setText("Danh sách sự kiện tư vấn");
-
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3)
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         jButton3.setText("Chạy thuật toán tư vấn");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         tableEventSelects.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -581,23 +590,32 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Xóa hết");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4)
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
                             .addComponent(jLabel4))
-                        .addGap(0, 253, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addComponent(cbxEvents, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
+                        .addComponent(cbxEvents, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel13Layout.setVerticalGroup(
@@ -608,12 +626,55 @@ public class Dashboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxEvents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel11)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+        );
+
+        tableLog.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null}
+            },
+            new String [] {
+                "Log"
+            }
+        ));
+        jScrollPane5.setViewportView(tableLog);
+
+        tableDiaDanh.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null}
+            },
+            new String [] {
+                "Địa điểm"
+            }
+        ));
+        jScrollPane3.setViewportView(tableDiaDanh);
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel5.setText("Danh sách sự kiện tư vấn");
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -622,21 +683,33 @@ public class Dashboard extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)))
+                .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane5)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(21, 21, 21))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -644,7 +717,6 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -655,9 +727,7 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(37, 37, 37))
         );
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -681,9 +751,9 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jLabel12)
-                .addGap(10, 10, 10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(50, 50, 50))
         );
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -721,7 +791,7 @@ public class Dashboard extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 221, Short.MAX_VALUE)
+                .addGap(0, 208, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
@@ -759,6 +829,12 @@ public class Dashboard extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
 //        System.out.println();
+        for (int i = 0; i < tapSuKienSelected.size(); i++) {
+            if (tapSuKienSelected.get(i).getEventID() == danhSachTapSuKien.getAll().get(cbxEvents.getSelectedIndex()).getEventID()) {
+                System.out.println("Su kien da ton tai");
+                return;
+            }
+        }
         tapSuKienSelected.add(danhSachTapSuKien.getAll().get(cbxEvents.getSelectedIndex()));
         refresh(true);
 //        tableEventSelects
@@ -768,6 +844,9 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         String rule = inpuSuKien.getText();
         try {
+            if (rule.length() < 1) {
+                return;
+            }
             if (addEvent(danhSachTapSuKien.getAllLoaiSuKien().get(cbxEvents.getSelectedIndex()).getEventTypeID(), rule)) {
                 inpuSuKien.setText("");
             } else {
@@ -779,6 +858,89 @@ public class Dashboard extends javax.swing.JFrame {
             refresh(true);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        tapSuKienSelected = new ArrayList<>();
+        refresh(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+//        Xóa log trước đó
+        log = new ArrayList<>();
+        tapDiaDanh = new ArrayList<>();
+        // Thuật toán suy diễn tiến trình bày ở đây
+        // Mỗi lần xử lý dữ liệu cần hiển thị log table lên màn hình
+        // Xử lý hết sang mã sự kiện sẽ dễ quản lý hơn
+        ArrayList<Integer> tapSuKienBanDau = new ArrayList<>();
+
+        for (int i = 0; i < tapSuKienSelected.size(); i++) {
+            tapSuKienBanDau.add(tapSuKienSelected.get(i).getEventID());
+            log.add("Thêm " + tapSuKienSelected.get(i).getEventID() + " vào nhóm");
+        }
+        log.add(tapSuKienBanDau.toString());
+
+        log.add("Tìm luật khả hợp");
+        // Duyệt tất cả các sự kiện đã cho
+        TapLuatDAO tapLuatDAO;
+        try {
+            tapLuatDAO = TapLuatDAO.getInstance();
+            boolean isBreak = true;
+            while (true) {
+                log.add("Vòng lặp thuật toán");
+                log.add(tapSuKienBanDau.toString());
+                isBreak = true;
+                for (int i = 0; i < tapSuKienBanDau.size(); i++) {
+                    // kiểm tra mỗi sự kiện
+                    ArrayList<LogicMenhDe> logicMenhDe = tapLuatDAO.getMenhDe(tapSuKienBanDau.get(i));
+
+                    // kiem tra từng luật
+                    for (int j = 0; j < logicMenhDe.size(); j++) {
+                        log.add("Xét luật khả hợp với " + logicMenhDe.get(j).toString());
+                        // xét điều kiện khả hợp
+
+                        // lấy toàn bộ sự kiện của luật kiểm tra điều kiện đủ
+                        for (int k = 0; k < logicMenhDe.get(j).getLeft().size(); k++) {
+                            // chỉ một trường hợp ko thỏa mãn sẽ break ra ngoài
+                            if (!tapSuKienBanDau.contains(logicMenhDe.get(j).getLeft().get(k))) {
+                                log.add("Không thỏa mãn " + logicMenhDe.get(j).toString());
+                                break;
+                            } else if (k == logicMenhDe.get(j).getLeft().size() - 1 && !tapSuKienBanDau.contains(logicMenhDe.get(j).getRight())) {
+                                isBreak = false;
+                                log.add("Luật khả hợp " + logicMenhDe.get(j).toString());
+                                tapSuKienBanDau.add(logicMenhDe.get(j).getRight());
+                                log.add(tapSuKienBanDau.toString());
+                            }
+                        }
+                    }
+                }
+
+                // Khi update một vòng không có cập nhật mới thoát ra và đưa ra kết luận địa điểm
+                if (isBreak) {
+                    log.add("Thoát vòng lặp thuật toán " + tapSuKienBanDau.toString());
+                    System.out.println("Thoat vong lap");
+                    break;
+                }
+            }
+
+            for (int i = 0; i < danhSachTapSuKien.getAll().size(); i++) {
+                if (danhSachTapSuKien.getAll().get(i).getEventTypeName().trim().equals("Su kien cac dia danh") || danhSachTapSuKien.getAll().get(i).getEventTypeName().trim() == "Sự kiện các địa danh") {
+                    System.out.println(danhSachTapSuKien.getAll().get(i));
+                    if (tapSuKienBanDau.contains(danhSachTapSuKien.getAll().get(i).getEventID())) {
+                        System.out.println("Tìm thấy địa danh phù hợp");
+                        tapDiaDanh.add(danhSachTapSuKien.getAll().get(i));
+                    }
+                }
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Loi instance");
+            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        refresh(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -822,6 +984,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JTextField inpuSuKien;
     private javax.swing.JTextField inputLuat;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
@@ -852,9 +1015,11 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable tableEventResults;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTable tableDiaDanh;
     private javax.swing.JTable tableEventSelects;
     private javax.swing.JTable tableEvents;
+    private javax.swing.JTable tableLog;
     private javax.swing.JTable tableRules;
     // End of variables declaration//GEN-END:variables
 }
