@@ -113,17 +113,17 @@ public class Dashboard extends javax.swing.JFrame {
 //        tap su kien selected table
         tapSuKienSelectedTableModel = new TapSuKienSelectedTableModel(tapSuKienSelected);
 
-        sorter = new TableRowSorter<>(tapSuKienSelectedTableModel);
+//        sorter = new TableRowSorter<>(tapSuKienSelectedTableModel);
 
         tableEventSelects.setModel(tapSuKienSelectedTableModel);
-        tableEventSelects.setRowSorter(sorter);
+//        tableEventSelects.setRowSorter(sorter);
 
 //        dia danh table
         diaDanhTableModel = new DiaDanhTableModel(tapSuKienSelected);
 
 //        sorter = new TableRowSorter<>(diaDanhTableModel);
         tableDiaDanh.setModel(diaDanhTableModel);
-        tableDiaDanh.setRowSorter(sorter);
+//        tableDiaDanh.setRowSorter(sorter);
 
 //        log table
         logTableModel = new LogTableModel(log);
@@ -154,7 +154,7 @@ public class Dashboard extends javax.swing.JFrame {
             tapLuatTableModel.setModel(danhSachTapLuat.getAll());
             tableRules.setModel(tapLuatTableModel);
 
-            sorter.setModel(tapLuatTableModel);
+//            sorter.setModel(tapLuatTableModel);
             tableRules.revalidate();
             tableRules.repaint();
 
@@ -162,7 +162,7 @@ public class Dashboard extends javax.swing.JFrame {
             tapSuKienTableModel.setModel(danhSachTapSuKien.getAll());
             tableEvents.setModel(tapSuKienTableModel);
 
-            sorter.setModel(tapSuKienTableModel);
+//            sorter.setModel(tapSuKienTableModel);
             tableEvents.revalidate();
             tableEvents.repaint();
 
@@ -179,7 +179,7 @@ public class Dashboard extends javax.swing.JFrame {
             tapSuKienSelectedTableModel.setModel(tapSuKienSelected);
             tableEventSelects.setModel(tapSuKienSelectedTableModel);
 
-            sorter.setModel(tapSuKienSelectedTableModel);
+//            sorter.setModel(tapSuKienSelectedTableModel);
             tableEventSelects.revalidate();
             tableEventSelects.repaint();
 
@@ -187,7 +187,7 @@ public class Dashboard extends javax.swing.JFrame {
             diaDanhTableModel.setModel(tapDiaDanh);
             tableDiaDanh.setModel(diaDanhTableModel);
 
-            sorter.setModel(diaDanhTableModel);
+//            sorter.setModel(diaDanhTableModel);
             tableDiaDanh.revalidate();
             tableDiaDanh.repaint();
 
@@ -918,7 +918,8 @@ public class Dashboard extends javax.swing.JFrame {
 
                 // Khi update một vòng không có cập nhật mới thoát ra và đưa ra kết luận địa điểm
                 if (isBreak) {
-                    log.add("Thoát vòng lặp thuật toán " + tapSuKienBanDau.toString());
+                    log.add("Thoát vòng lặp thuật toán ");
+                    log.add(tapSuKienBanDau.toString());
                     System.out.println("Thoat vong lap");
                     break;
                 }
