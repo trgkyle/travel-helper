@@ -1,50 +1,176 @@
+# Cac mua nen di vao vung nao nhi
 D26 -> G37
 D27 -> G38
 D27 -> G39
 D28 -> G40
 D29 -> G39
+
+# Cac vung thuoc tinh thanh nao ?
+G37 -> A7
+G37 -> A14
+G37 -> A15
+
+# Tam bien de
+G38 -> A12
+G38 -> A8
+G38 -> A4
+
+# Khu di tich
+G39 -> A1
+G39 -> A9
+
+# Khu vui choi
+G40 -> A12
+G40 -> A1
+
+
+
+# Thuong thi vung nui co chi phi re
 G37 -> E30
 G38 -> E32
 G38 -> E33
 G39 -> E31
-G40 -> E22
-E30 ^ F34 -> C23
-E31 ^ F35 -> C24
-E32 ^ F36 -> C25
-F35 -> C24
+# Khu vui choi thuong tieu nhien tien :> 
+G40 -> E32
+# Tieu het tien luon :>>
+G40 -> E33
+
+
+# Di nhieu nguoi thi cu choi that lon nha :>>, thue khach san vip luon
 F36 -> C25
-G37 -> A14
-G37 -> A2
-G37 -> A18
-G37 -> A15
-G37 -> A17
-G38 -> A12
-G38 -> A8
-G39 -> A1
-G39 -> A19
-A1 -> N20
-A1 -> N17 
-A1 -> N11
-A1 -> N10
-A2 -> N14
-A2 -> N1
-A7 -> N15
-A8 -> N18
-A11 -> N19
-A11 -> N20
-A14 ^ G37 -> N19
-B21 ^ C23 -> E31
-B21 ^ C24 -> E32
-B21 ^ C25 -> E33
-B22 ^ C25 -> E32
-B22 ^ C23 -> E30
-A1 ^ D28 ^ E32 ^ G38 -> N20
-A1 ^ E32 ^ G38 -> N10
-A1 ^ B22 ^ E32 ^ G38 -> N17
-A1 ^ B22 ^ E32 ^ G38 -> N11
-A2 ^ D28 ^ E32 ^ G38 -> N14
-A2 ^ B22 ^ E32 ^ G39 -> N1
-A7 ^ B22 ^ E33 ^ G37 -> N15
-A8 ^ B21 ^ E30 ^ G38 -> N18
-A11 ^ E30 ^ G39 -> N19
-A11 ^ B22 ^ E31 ^ G37 -> N20
+# Tu du lich mot minh hoac cac cap doi di tuan trang mat
+F34 -> C25
+F34 -> C24
+
+# 3-10 nguoi thi binh thuong thoi
+F35 -> C24
+
+
+# Hoac ket hop voi 2 dieu kien gia va so luong nguoi
+E30 ^ F34 -> C23
+E30 ^ F34 -> C24
+E30 ^ F36 -> C23
+E30 ^ F35 -> C23
+
+E32 ^ F36 -> C23
+E31 ^ F35 -> C24
+E33 ^ F36 -> C25
+
+# Nhom lai cac khu di tich G39
+    # O Ha Noi nen di cac khu di tich
+    A1 ^ G39 -> H57
+    A1 ^ G39 -> H51
+    A1 ^ G39 -> H60
+    # Ra Hoa Binh chac chi ngam nha may thuy dien thoi nhi :3
+    A7 ^ G39 -> H55
+
+    # ...
+    A2 ^ G39 -> H54
+    # ...
+    A15 ^ G39 -> H52
+
+    G39 -> H41
+
+    A18 ^ G39 -> H46
+
+    A18 ^ G39 -> H49
+
+    # Ninh Binh with love
+    A13 ^ G39 -> H43
+    A8 ^ G39 -> H58
+
+
+# Nhom lai cac khu Vung nui G37
+    # Ngam Sapa nao
+    A14 ^ G37 -> H59
+
+    G37 -> H45
+    G37 -> H56
+
+# Nhom lai cac khu vui choi G40
+    A1 ^ G40 -> H50
+    # Kham pha moc chau cung CLB HIT :3
+    A15 ^ G40 -> H52
+    A18 ^ G40 -> H44
+
+
+# Nhom lai cac khu vung bien G38
+    A18 ^ G38 -> H49
+
+# Cac nhom con lai co ly do khac
+
+F36 ^ G39 ^ E30 -> H51
+D26 ^ F34 ^ B21 -> H59
+D27 ^ E33 ^ C25 -> H44
+D29 ^ B21 ^ F34 -> H59
+D29 ^ F34 -> H45
+B22 ^ G40 -> H41
+B22 ^ G40 -> H50
+D27 ^ C25 ^ B22 ^ E33 -> H49
+B22 ^ G39 ^ C23 -> H55
+
+
+
+
+################### Note##############
+
+# G37	Vùng Núi
+# G38	Vùng biển
+# G39	Khu di tích
+# G40	Khu vui chơi
+
+
+
+# H41	Cột Cờ Lũng Cú
+# H42	Chùa Ba Vàng
+# H43	Cố đô Hoa Lư
+# H44	Dragon Park
+# H45	Đà Lạt
+# H46	Đảo Cô Tô
+# H47	Đền Hùng
+# H48	Động Thiên Long
+# H49	Hạ Long
+# H50	Hồ Tây
+# H51	Lăng Bác
+# H52	Mộc Châu
+# H53	Mù Căng Chải
+# H54	Nhà Vương
+# H55	Nhà Máy Thủy Điện Hòa Bình
+# H56	Tam Đảo
+# H57	Thiên Đường Bảo Sơn
+# H58	Thành Nhà Hồ
+# H59	Sapa
+# H60	Vườn Quốc Gia Ba Vì
+
+
+
+# Tập sự kiện thời lượng( Tập B)
+# Mã sự kiện	Nội dung sự kiện
+# B21	Đi nhiều ngày
+# B22	Đi trong ngày
+
+# Tập sự kiện hạng mục du lịch(Tập C)
+# Mã sự kiện	Nội dung sự kiện
+# C23	Tiết kiệm
+# C24	Tiêu chuẩn
+# C25	Cao cấp
+
+# Tập sự kiện mùa ( Tập D)
+# Mã sự kiện	Nội dung sự kiện
+# D26	Mùa xuân
+# D27	Mùa hạ
+# D28	Mùa thu
+# D29	Mùa đông
+
+# Tập sự kiện chi phí( Tập E)
+# Mã sự kiện	Nội dung sự kiện
+# E30	Giá Dưới 1 Triệu
+# E31	Giá Từ 1-2 Triệu
+# E32	Giá Từ 2-3 Triệu
+# E33	Giá Trên 3 Triệu
+
+# Tập sự kiện số lượng người( Tập F)
+# Mã sự kiện	Nội dung sự kiện
+# F34	1-2 Người
+# F35	3-10 Người
+# F36	Trên 10 Người
